@@ -1,0 +1,5 @@
+-   docker
+-   pip
+-   tests
+-   coverage report
+-   local run via `python -m ngmapi`

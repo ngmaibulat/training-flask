@@ -17,7 +17,7 @@ ENV FLASK_ENV=production
 
 # Define the command to run your app using CMD which defines your runtime
 
-# CMD ["python", "src/__main__.py"]
-# CMD ["python", "-m", "src"]
+# CMD ["python", "ngmapi/__main__.py"]
+# CMD ["python", "-m", "ngmapi"]
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "src.__main__:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "ngmapi.app:app"]

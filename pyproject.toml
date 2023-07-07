@@ -1,13 +1,14 @@
 [project]
-name = "ngm_api"
-version = "0.0.1"
+name = "ngmapi"
+version = "0.0.4"
 description = "Just a demo project"
 readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["flask", "project"]
 dependencies = [
-    "requests",
-    "psutil"
+    "Flask",
+    "Jinja2",
+    "MarkupSafe"
 ]
 
 [project.urls]
@@ -16,7 +17,7 @@ Documentation = "https://github.com/ngmaibulat/training-flask"
 Changes = "https://github.com/ngmaibulat/training-flask"
 
 [project.scripts]
-api = "ngm_api.__main__:main"
+ngmapi = "ngmapi.__main__:main"
 
 [build-system]
 requires = ["setuptools"]
