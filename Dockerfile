@@ -8,11 +8,16 @@ WORKDIR /app
 ADD . /app
 
 # Install any needed packages specified in requirements.txt
-# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install .
 
-# Make your project available on the network 
-# EXPOSE 8000
+EXPOSE 5000
+
+ENV FLASK_ENV=production
 
 # Define the command to run your app using CMD which defines your runtime
-CMD ["python", "-m", "ngm_api"]
+
+# CMD ["python", "src/__main__.py"]
+# CMD ["python", "-m", "src"]
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "src.__main__:app"]
