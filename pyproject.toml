@@ -1,0 +1,23 @@
+[project]
+name = "ngm_api"
+version = "0.0.1"
+description = "Just a demo project"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["flask", "project"]
+dependencies = [
+    "requests",
+    "psutil"
+]
+
+[project.urls]
+Homepage = "https://github.com/ngmaibulat/training-flask"
+Documentation = "https://github.com/ngmaibulat/training-flask"
+Changes = "https://github.com/ngmaibulat/training-flask"
+
+[project.scripts]
+api = "ngm_api.__main__:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
