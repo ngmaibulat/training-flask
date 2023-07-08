@@ -32,3 +32,12 @@ jobs:
           podman tag $IMG:latest $IMG:${{ ENV.IMAGE_TAG }}
           podman push $IMG
           podman push $IMG:${{ ENV.IMAGE_TAG }}
+
+      - name: PIP Package Build
+        run: |
+          python --version
+          pip install build
+          pip install twine
+          python -m build --sdist .
+          python -m build --wheel .
+          ls -la dist
