@@ -13,6 +13,8 @@ env:
     REGISTRY: ghcr.io
     IMAGE_NAME: ngmaibulat/ngmapi
     IMAGE_TAG: 0.0.${{ github.run_number }}
+    TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+    TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
 
 jobs:
   build:
