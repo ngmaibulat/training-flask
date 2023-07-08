@@ -35,6 +35,7 @@ jobs:
 
       - name: PIP Package Build
         run: |
+          sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
           python --version
           pip install build
           pip install twine
