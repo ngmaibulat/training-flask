@@ -53,14 +53,16 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          # echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          # chmod 600 ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Test SSH
         run: |
           ssh-keyscan $HOST >> ~/.ssh/known_hosts
           cat ~/.ssh/known_hosts
-          echo uptime | ssh -i ~/.ssh/id_ed25519 root@$HOST 'bash -s'
+          echo uptime | ssh -i ~/.ssh/id_rsa root@$HOST 'bash -s'
 
       - name: Deploy via SSH
         run: |
