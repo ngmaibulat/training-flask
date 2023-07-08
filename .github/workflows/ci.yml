@@ -60,7 +60,7 @@ jobs:
         run: |
           ssh-keyscan $HOST >> ~/.ssh/known_hosts
           cat ~/.ssh/known_hosts
-          echo uptime | ssh root@$HOST 'bash -s'
+          echo uptime | ssh -i ~/.ssh/id_ed25519 root@$HOST 'bash -s'
 
       - name: Deploy via SSH
         run: |
