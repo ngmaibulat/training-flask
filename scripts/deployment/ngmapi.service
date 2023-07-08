@@ -1,0 +1,15 @@
+[Unit]
+Description=NGM API Service
+After=network.target
+
+[Service]
+User=ngm
+Group=nogroup
+# ExecStart=/usr/local/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --log-level=debug --log-file=/var/log/gunicorn.log --access-logfile=/var/log/gunicorn-access.log --error-logfile=/var/log/gunicorn-error.log --capture-output --enable-stdio-inheritance --pythonpath=/opt/ngmapi/ --chdir=/opt/ngmapi/ ngmapi.app:app
+ExecStart=/usr/local/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --pythonpath=/opt/ngmapi/ ngmapi.app:app
+Restart=always
+WorkingDirectory=/opt/ngmapi
+Environment="ENV=production"
+
+[Install]
+WantedBy=multi-user.target

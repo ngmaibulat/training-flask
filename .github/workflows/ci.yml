@@ -15,6 +15,7 @@ env:
     IMAGE_TAG: 0.0.${{ github.run_number }}
     TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
     TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    HOST: ${{ secrets.HOST }}
 
 jobs:
   build:
@@ -48,3 +49,11 @@ jobs:
           python -m build --wheel .
           ls -la dist
           python -m twine upload dist/*
+    
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
+          ssh -T root@$HOST
