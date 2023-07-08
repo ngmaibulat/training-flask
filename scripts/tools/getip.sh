@@ -1,0 +1,1 @@
+curl https://ifconfig.me
