@@ -21,6 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Update Metadata
+        run: |
+          sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
+          python --version
+          pip install build
+          pip install twine
+
       - name: Log in to registry
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u $ --password-stdin
@@ -35,10 +42,6 @@ jobs:
 
       - name: PIP Package Build
         run: |
-          sed -i "s/BUILD_VERSION/${{ github.run_number }}/g" pyproject.toml
-          python --version
-          pip install build
-          pip install twine
           python -m build --sdist .
           python -m build --wheel .
           ls -la dist
