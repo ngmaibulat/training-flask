@@ -11,7 +11,16 @@ source ~/.bashrc
 
 export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
 
-git clone git@github.com:ngmaibulat/training-flask.git
+# git clone git@github.com:ngmaibulat/training-flask.git
+
+git clone https://github.com/ngmaibulat/training-flask.git
+
+if [ $? -eq 0 ]; then
+    echo "Clone was successful"
+else
+    echo "Clone failed"
+    exit 1
+fi
 
 
 sudo mkdir -p /opt
