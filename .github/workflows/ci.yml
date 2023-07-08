@@ -55,5 +55,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+
+      - name: Use SSH
+        run: |
           ssh-keyscan $HOST >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
           ssh -T root@$HOST
