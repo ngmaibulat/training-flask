@@ -1,4 +1,4 @@
-name: CI
+name: SSH-Deploy
 
 on:
   workflow_dispatch:
