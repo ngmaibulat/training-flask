@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ngmaibulat/ngmapi
+    IMAGE_TAG: 0.0.${{ github.run_number }}
+    TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+    TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    HOST: ${{ secrets.HOST }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+    
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Test SSH
+        run: |
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
+          cat ~/.ssh/known_hosts
+          echo uptime | ssh root@$HOST 'bash -s'
