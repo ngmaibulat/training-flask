@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+### Deploy nginx reverse proxy.
+### Or, just update the config
+
+sudo apt -y install nginx
+sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
+sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
+sudo systemctl restart nginx
+
+
 ###  Check if the service exists
 ###  If it does, pull the latest code and restart the service
 ###  If it does not, continue with the deployment
@@ -11,13 +21,14 @@ if systemctl list-units --full --all | grep -Fq "$service_name.service"; then
 
     git config --global --add safe.directory /opt/ngmapi
     cd /opt/ngmapi
-    
     git pull
+
     sudo systemctl restart ngmapi.service
 
-    sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
-    sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
-    sudo systemctl restart nginx
+    ### Update TLS certificate
+    sudo systemctl stop nginx
+    sudo certbot renew --quiet
+    sudo systemctl start nginx
 
     exit 0
 else
@@ -78,12 +89,16 @@ sudo systemctl start ngmapi.service
 sudo systemctl status ngmapi.service
 
 
-### Deploy nginx reverse proxy
+### Certbot
 
-sudo apt -y install nginx
-sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
-sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
-sudo systemctl restart nginx
+sudo apt -y install certbot
+sudo systemctl stop nginx
+sudo certbot certonly --standalone -d api.ng-labs.com --non-interactive --agree-tos --email nigmatullin@gmail.com
+
+# Certificate is saved at: /etc/letsencrypt/live/api.ng-labs.com/fullchain.pem
+# Key is saved at:         /etc/letsencrypt/live/api.ng-labs.com/privkey.pem
+
+sudo systemctl start nginx
 
 ### A simple test
 
