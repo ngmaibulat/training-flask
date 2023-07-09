@@ -27,6 +27,7 @@ jobs:
 
       - name: Test SSH
         run: |
+          export CMD="git clone git@github.com:ngmaibulat/training-flask.git"
           ssh-keyscan $HOST >> ~/.ssh/known_hosts
           cat ~/.ssh/known_hosts
-          echo uptime | ssh root@$HOST 'bash -s'
+          echo $CMD | ssh root@$HOST 'bash -s'
