@@ -1,15 +1,6 @@
 #!/bin/bash
 
 
-### Deploy nginx reverse proxy.
-### Or, just update the config
-
-sudo apt -y install nginx
-sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
-sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
-sudo systemctl restart nginx
-
-
 ###  Check if the service exists
 ###  If it does, pull the latest code and restart the service
 ###  If it does not, continue with the deployment
@@ -22,6 +13,14 @@ if systemctl list-units --full --all | grep -Fq "$service_name.service"; then
     git config --global --add safe.directory /opt/ngmapi
     cd /opt/ngmapi
     git pull
+
+    ### Deploy nginx reverse proxy.
+    ### Or, just update the config
+
+    sudo apt -y install nginx
+    sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
+    sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
+    sudo systemctl restart nginx
 
     sudo systemctl restart ngmapi.service
 
@@ -87,6 +86,15 @@ sudo systemctl daemon-reload
 sudo systemctl enable ngmapi.service
 sudo systemctl start ngmapi.service
 sudo systemctl status ngmapi.service
+
+
+### Deploy nginx reverse proxy.
+### Or, just update the config
+
+sudo apt -y install nginx
+sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
+sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
+sudo systemctl restart nginx
 
 
 ### Certbot
