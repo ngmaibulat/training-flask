@@ -8,10 +8,17 @@ service_name="ngmapi"
 
 if systemctl list-units --full --all | grep -Fq "$service_name.service"; then
     echo "Service $service_name exists"
+
     git config --global --add safe.directory /opt/ngmapi
     cd /opt/ngmapi
+    
     git pull
     sudo systemctl restart ngmapi.service
+
+    sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
+    sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
+    sudo systemctl restart nginx
+
     exit 0
 else
     echo "Service $service_name does not exist"
@@ -69,6 +76,19 @@ sudo systemctl daemon-reload
 sudo systemctl enable ngmapi.service
 sudo systemctl start ngmapi.service
 sudo systemctl status ngmapi.service
+
+
+### Deploy nginx reverse proxy
+
+sudo apt -y install nginx
+sudo cp /opt/ngmapi/scripts/deployment/ngmapi.conf /etc/nginx/sites-available/
+sudo ln -sf /etc/nginx/sites-available/ngmapi.conf /etc/nginx/sites-enabled/ngmapi
+sudo systemctl restart nginx
+
+### A simple test
+
+export IP=`curl ifconfig.me`
+curl http://$IP
 
 ### Below commands for manual review/debug
 # pstree -p 1492
