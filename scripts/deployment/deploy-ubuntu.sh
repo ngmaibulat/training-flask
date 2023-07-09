@@ -23,10 +23,11 @@ echo 'alias pip=pip3' >> ~/.bashrc
 source ~/.bashrc
 
 export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
+export GIT_REPO="https://github.com/ngmaibulat/training-flask.git"
 
 # git clone git@github.com:ngmaibulat/training-flask.git
 
-git clone https://github.com/ngmaibulat/training-flask.git
+git clone $GIT_REPO
 
 if [ $? -eq 0 ]; then
     echo "Clone was successful"
