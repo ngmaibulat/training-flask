@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     # return render_template('index.html')
     # return redirect(url_for('login'))
-    return "Salam Aleikum!\n"
+    return "Hello!\n"
 
 
 # app.run(debug=True)

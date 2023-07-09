@@ -112,6 +112,7 @@ sudo systemctl start nginx
 
 export IP=`curl ifconfig.me`
 curl http://$IP
+curl https://api.ng-labs.com
 
 ### Below commands for manual review/debug
 # pstree -p 1492
