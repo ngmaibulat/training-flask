@@ -1,0 +1,25 @@
+# runtime: python39
+runtime: python311
+entrypoint: gunicorn -b :$PORT ngmapi.app:app
+
+instance_class: F2
+
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 10
+  target_throughput_utilization: 0.6
+  max_concurrent_requests: 100
+
+env_variables:
+  SECRET_KEY: "replace_with_your_secret_key"
+
+# network:
+#   instance_tag: flask-app
+#   name: default
+
+resources:
+  cpu: 1
+  memory_gb: 1.4
+  disk_size_gb: 10
+

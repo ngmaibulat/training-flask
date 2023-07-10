@@ -1,0 +1,2 @@
+doctl databases list
+
