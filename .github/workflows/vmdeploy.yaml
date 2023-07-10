@@ -1,4 +1,4 @@
-name: CI
+name: VM Deploy
 
 on:
   workflow_dispatch:
