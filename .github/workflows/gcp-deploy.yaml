@@ -1,0 +1,45 @@
+name: Deploy to Google Cloud Run
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy when pushed
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}  # Set this in your repo's secrets
+  SERVICE_NAME: webapp
+  IMAGE: gcr.io/${{ secrets.GCP_PROJECT_ID }}/webapp
+  REGION: europe-west1
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}  # Set this in your repo's secrets
+        export_default_credentials: true
+
+    - name: Authorize Docker to push to Google Container Registry
+      run: gcloud auth configure-docker
+
+    - name: Build Docker Image
+      run: docker build -t "${IMAGE}" .
+
+    - name: Push Docker Image to Google Container Registry
+      run: docker push "${IMAGE}"
+
+    - name: Deploy Image to Cloud Run
+      run: |
+        gcloud run deploy "${SERVICE_NAME}" \
+          --image "${IMAGE}" \
+          --region "${REGION}" \
+          --platform managed \
+          --allow-unauthenticated  # remove this if you want to require authentication
