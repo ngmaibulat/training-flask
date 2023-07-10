@@ -20,12 +20,31 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v2
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@master
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
       with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}  # Set this in your repo's secrets
         export_default_credentials: true
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}  # Set this in your repo's secrets
+        export_default_credentials: true
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    # - name: Set up Cloud SDK
+    #   uses: google-github-actions/setup-gcloud@master
+    #   with:
+    #     project_id: ${{ secrets.GCP_PROJECT_ID }}
+    #     service_account_key: ${{ secrets.GCP_SA_KEY }}  # Set this in your repo's secrets
+    #     export_default_credentials: true
 
     - name: Authorize Docker to push to Google Container Registry
       run: gcloud auth configure-docker
